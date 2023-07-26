@@ -1,6 +1,24 @@
 #ifndef DEFS_H
 #define DEFS_H
 
+#include "stdlib.h"
+
+#define DEBUG
+
+#ifndef DEBUG
+#define ASSERT(n)
+#else
+#define ASSERT(n) \
+if(!(n)) { \
+    printf("%s - Failed", #n); \
+    printf(" On %s ", __DATE__); \
+    printf(" At %s ", __TIME__); \
+    printf(" In File %s ", __FILE__); \
+    printf(" At Line %d ", __LINE__); \
+    exit(1); \
+}
+#endif
+
 typedef unsigned long long U64;
 
 #define NAME "chessEngine 1.0"
@@ -57,10 +75,13 @@ typedef struct
     int minPce[3];                  // Number of 'minor pieces' on the board by color (Bishops and Knights)
     int castlePerm;                 //Castling Permissions
     S_UNDO history[MAXGAMEMOVES];   //Everytime a move is made we store it in this array
+    int pList[13][10];              //Piece List
+
 } S_BOARD;
 
 /* MACROS */
-#define FR2SQ(f,r) ((21+(f)) + ((r) * 10)) //For given file and rank returns 120 array based index for square
+#define FR2SQ(f,r) ((21+(f)) + ((r) * 10))  //For given file and rank returns 120 array based index for square
+#define SQ64(sq120) Sq120ToSq64[sq120]      //Shortening Sq120ToSq64[sq120] to SQ64(sq120)
 
 /* GLOBALS */
 extern int Sq120ToSq64[BRD_SQ_NUM]; //Used to get 64 square array index from 120 
@@ -70,7 +91,9 @@ extern int Sq64ToSq120[64];         //Used to get 120 square array index from 64
 extern void AllInit();
 
 //inti.c
+extern void AllInit();
 
-
+//bitBoards.c
+extern void PrintBitBoard(U64 bb);
 
 #endif
