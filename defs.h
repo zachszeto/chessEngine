@@ -59,6 +59,18 @@ typedef struct
     S_UNDO history[MAXGAMEMOVES];   //Everytime a move is made we store it in this array
 } S_BOARD;
 
+/* MACROS */
+#define FR2SQ(f,r) ((21+(f)) + ((r) * 10)) //For given file and rank returns 120 array based index for square
+
+/* GLOBALS */
+extern int Sq120ToSq64[BRD_SQ_NUM]; //Used to get 64 square array index from 120 
+extern int Sq64ToSq120[64];         //Used to get 120 square array index from 64 
+
+/* FUNCTIONS */
+extern void AllInit();
+
+//inti.c
+
 
 
 #endif
