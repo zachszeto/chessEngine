@@ -82,6 +82,8 @@ typedef struct
 /* MACROS */
 #define FR2SQ(f,r) ((21+(f)) + ((r) * 10))  //For given file and rank returns 120 array based index for square
 #define SQ64(sq120) Sq120ToSq64[sq120]      //Shortening Sq120ToSq64[sq120] to SQ64(sq120)
+#define POP(b) PopBit(b)
+#define CNT(b) CountBits(b)
 
 /* GLOBALS */
 extern int Sq120ToSq64[BRD_SQ_NUM]; //Used to get 64 square array index from 120 
@@ -95,5 +97,7 @@ extern void AllInit();
 
 //bitBoards.c
 extern void PrintBitBoard(U64 bb);
+extern int PopBit(U64 *bb);
+extern int CountBits(U64 b);
 
 #endif
