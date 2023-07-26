@@ -1,2 +1,2 @@
 all:
-	gcc chessEngine.c -o chessEngine
+	gcc chessEngine.c init.c -o chessEngine
