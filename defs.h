@@ -84,13 +84,17 @@ typedef struct
 #define SQ64(sq120) Sq120ToSq64[sq120]      //Shortening Sq120ToSq64[sq120] to SQ64(sq120)
 #define POP(b) PopBit(b)
 #define CNT(b) CountBits(b)
+#define CLRBIT(bb, sq) ((bb) &= ClearMask[(sq)])
+#define SETBIT(bb,sq) ((bb) |= SetMask[(sq)])
 
 /* GLOBALS */
 extern int Sq120ToSq64[BRD_SQ_NUM]; //Used to get 64 square array index from 120 
 extern int Sq64ToSq120[64];         //Used to get 120 square array index from 64 
+extern U64 SetMask[64];             //Sets Bit Mask
+extern U64  ClearMask[64];          //Clears Bit Mask
 
 /* FUNCTIONS */
-extern void AllInit();
+
 
 //inti.c
 extern void AllInit();

@@ -2,26 +2,43 @@
 #include "defs.h"
 
 int main() {
-
     AllInit();
+    return 0;
+}
 
-    U64 playBitBoard = 0ULL;
-    playBitBoard |= (1ULL << SQ64(D2));
-    playBitBoard |= (1ULL << SQ64(D3));
-    playBitBoard |= (1ULL << SQ64(D4));
+    //Setting and Clearing Bit Test
+    /*
+        int index = 0;
+        U64 playBitBoard = 0ULL;
 
-    printf("\n");
-    PrintBitBoard(playBitBoard);
+        for(index = 0; index < 64; index++){
+            printf("Index:%d\n", index);
+            PrintBitBoard(ClearMask[index]);
+            printf("\n");
+        }
 
-    int count = CNT(playBitBoard);
-    printf("Count: %d\n", count);
+        SETBIT(playBitBoard, 61);
+        PrintBitBoard(playBitBoard);
 
-    int index = POP(&playBitBoard);
-    printf("Index: %d\n", index);
+        CLRBIT(playBitBoard, 61);
+        PrintBitBoard(playBitBoard);
+    */
 
-    PrintBitBoard(playBitBoard);
-    count = CNT(playBitBoard);
-    printf("Count: %d\n", count);
+    //Bit Board POP() Test
+    /*
+            U64 playBitBoard = 0ULL;
+            playBitBoard |= (1ULL << SQ64(D2));
+            playBitBoard |= (1ULL << SQ64(D3));
+            playBitBoard |= (1ULL << SQ64(D4));
+
+            int sq64 = 0;
+
+            while(playBitBoard){
+                sq64 = POP(&playBitBoard);
+                printf("Popped:%d\n", sq64);
+                PrintBitBoard(playBitBoard);
+            }
+    */
     
     //64 and 120 Base Array Test
     /* 
@@ -56,5 +73,3 @@ int main() {
         printf("G2 Added:\n\n");
         PrintBitBoard(playBitBoard);
     */
-    return 0;
-}
