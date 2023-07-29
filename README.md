@@ -7,4 +7,4 @@ For move ordering and improved performance, I will learn about and use a Princip
 
 To improve our runtime and efficiency, I'll use  utilize Lazy SMP, allowing our chess engine to efficiently search and evaluate multiple positions concurrently.
 
-Throughout the project I hope to learn the nuiances to C programming, implementing various data structures and algorithms essential for chess engines. By the end, we'll have a fully functional chess engine that showcases the application of what I have learned.
+Throughout the project I hope to learn the nuances to C programming, implementing various data structures and algorithms essential for chess engines. By the end, we'll have a fully functional chess engine that showcases the application of what I have learned.
