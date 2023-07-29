@@ -46,7 +46,7 @@ enum{FALSE, TRUE};
 
 enum{WKCA = 1, WQCA = 2, BKCA = 4, BQCA = 8}; //Castling Permissions
 
-//Undo Move Struct
+//Move Struct
 typedef struct 
 {
     int move;
@@ -92,16 +92,20 @@ extern int Sq120ToSq64[BRD_SQ_NUM]; //Used to get 64 square array index from 120
 extern int Sq64ToSq120[64];         //Used to get 120 square array index from 64 
 extern U64 SetMask[64];             //Sets Bit Mask
 extern U64  ClearMask[64];          //Clears Bit Mask
+extern U64 PieceKeys[13][120];      //Pieces HashKey
+extern U64 SideKey;                 //Side Hashkey
+extern U64 CastleKeys[16];          //Castle Hashkey
 
 /* FUNCTIONS */
+    //inti.c
+    extern void AllInit();
 
+    //bitBoards.c
+    extern void PrintBitBoard(U64 bb);
+    extern int PopBit(U64 *bb);
+    extern int CountBits(U64 b);
 
-//inti.c
-extern void AllInit();
-
-//bitBoards.c
-extern void PrintBitBoard(U64 bb);
-extern int PopBit(U64 *bb);
-extern int CountBits(U64 b);
+    //hashKeys.c
+    extern U64 GeneratePosKey(const S_BOARD *pos);
 
 #endif
