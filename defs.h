@@ -24,6 +24,7 @@ typedef unsigned long long U64;
 #define NAME "chessEngine 1.0"
 #define BRD_SQ_NUM 120 //Board Array
 #define MAXGAMEMOVES 2048 //How many moves we expect both players combined to make
+#define START_FEN "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
 enum {EMPTY, wP, wN, wB, wR, wQ, wK, bP, bN, bB, bR, bQ, bK}; //Pieces (ie. wP = white Pawn, bN = black Knight, etc)
 enum {FILE_A, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_H, FILE_NONE}; //File Def
