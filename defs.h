@@ -93,10 +93,14 @@ typedef struct
 extern int Sq120ToSq64[BRD_SQ_NUM]; //Used to get 64 square array index from 120 
 extern int Sq64ToSq120[64];         //Used to get 120 square array index from 64 
 extern U64 SetMask[64];             //Sets Bit Mask
-extern U64 ClearMask[64];          //Clears Bit Mask
+extern U64 ClearMask[64];           //Clears Bit Mask
 extern U64 PieceKeys[13][120];      //Pieces HashKey
 extern U64 SideKey;                 //Side Hashkey
 extern U64 CastleKeys[16];          //Castle Hashkey
+extern char PceChar[];              
+extern char SideChar[];
+extern char RankChar[];
+extern char FileChar[];
 
 /* FUNCTIONS */
     //inti.c
@@ -112,5 +116,7 @@ extern U64 CastleKeys[16];          //Castle Hashkey
 
     //board.c
     extern void ResetBoard(S_BOARD *pos);
+    extern int ParseFen(char *fen, S_BOARD *pos);
+    extern void PrintBoard(const S_BOARD *pos);
 
 #endif

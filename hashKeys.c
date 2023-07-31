@@ -1,42 +1,43 @@
+#include "stdio.h"
 #include "defs.h"
-#include <stdio.h>
 
 // Generate a 64 bit position key from the position information
 U64 GeneratePosKey(const S_BOARD *pos) {
 
-  int sq = 0; // square index
-  U64 finalKey = 0; // final key to return
-  int piece = EMPTY; // piece on square
-  
-  // Loop through all squares on the board
-  for (sq = 0; sq < BRD_SQ_NUM; ++sq) {
+  int sq = 0; 
+  U64 finalKey = 0;
+  int piece = EMPTY;
+
+  // loop through all squares on the board
+  for(sq = 0; sq < BRD_SQ_NUM; ++sq) {
     
-    // Get piece on current square
-    piece = pos->pieces[sq]; 
+    // get the piece on the current square
+    piece = pos->pieces[sq];
     
-    // If square not empty or off board, update final key
-    if (piece != NO_SQ && piece != EMPTY) {
+    // if there is a piece on the square (not empty or offboard)
+    if(piece!=NO_SQ && piece!=EMPTY && piece != OFFBOARD) {
+
+      // make sure piece is valid
+      ASSERT(piece>=wP && piece<=bK); 
       
-      ASSERT(piece >= wP && piece <= bK); // Validate piece type
-      
-      // XOR piece key for current square
+      // xor the piece key
       finalKey ^= PieceKeys[piece][sq]; 
     }
   }
-  
-  // If side to move is white, XOR in white side key
-  if (pos->side == WHITE) {
+
+  // xor side key if side to move is white
+  if(pos->side == WHITE) {
     finalKey ^= SideKey; 
   }
-  
-  // If en passant square is set, XOR in key for that square
-  if (pos->enPas != NO_SQ) {  
-    ASSERT(pos->enPas >= 0 && pos->enPas < BRD_SQ_NUM);
+
+  // xor en passant key if en passant square is set
+  if(pos->enPas != NO_SQ) {
+    ASSERT(pos->enPas>=0 && pos->enPas<BRD_SQ_NUM);
     finalKey ^= PieceKeys[EMPTY][pos->enPas];
   }
 
-  // XOR in key for current castle permissions  
-  ASSERT(pos->castlePerm >= 0 && pos->castlePerm <= 15);
+  // xor castle keys based on castle permissions
+  ASSERT(pos->castlePerm>=0 && pos->castlePerm<=15);
   finalKey ^= CastleKeys[pos->castlePerm];
 
   return finalKey;
