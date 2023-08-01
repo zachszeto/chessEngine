@@ -107,6 +107,8 @@ extern int PieceMjr[13];
 extern int PieceMin[13];
 extern int PieceVal[13];
 extern int PieceCol[13];
+extern int FilesBRD[BRD_SQ_NUM];
+extern int RanksBRD[BRD_SQ_NUM];
 
 /* FUNCTIONS */
     //inti.c
