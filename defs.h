@@ -71,9 +71,10 @@ typedef struct
     int hisPly;                     // Past Moves
     U64 posKey;                     // Unique key for each board position
     int pceNum[13];                 // Number of pieces on the board indexed by piece type
-    int bigPce[3];                  // Number of 'big pieces' on the board by color (not pawns)
-    int mjrPce[3];                  // Number of 'major pieces' on the board by color (Rooks and Queens)
-    int minPce[3];                  // Number of 'minor pieces' on the board by color (Bishops and Knights)
+    int bigPce[2];                  // Number of 'big pieces' on the board by color (not pawns)
+    int mjrPce[2];                  // Number of 'major pieces' on the board by color (Rooks and Queens)
+    int minPce[2];                  // Number of 'minor pieces' on the board by color (Bishops and Knights)
+    int material[2];                //Material Score
     int castlePerm;                 //Castling Permissions
     S_UNDO history[MAXGAMEMOVES];   //Everytime a move is made we store it in this array
     int pList[13][10];              //Piece List
@@ -101,6 +102,11 @@ extern char PceChar[];
 extern char SideChar[];
 extern char RankChar[];
 extern char FileChar[];
+extern int PieceBig[13];
+extern int PieceMjr[13];
+extern int PieceMin[13];
+extern int PieceVal[13];
+extern int PieceCol[13];
 
 /* FUNCTIONS */
     //inti.c
@@ -118,5 +124,6 @@ extern char FileChar[];
     extern void ResetBoard(S_BOARD *pos);
     extern int ParseFen(char *fen, S_BOARD *pos);
     extern void PrintBoard(const S_BOARD *pos);
+    extern void UpdateListMaterial(S_BOARD *pos);
 
 #endif
