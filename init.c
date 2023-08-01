@@ -20,22 +20,41 @@ U64 CastleKeys[16];
 int FilesBRD[BRD_SQ_NUM];
 int RanksBRD[BRD_SQ_NUM];
 
+// Initialize the FilesBRD and RanksBRD arrays
 void InitFilesRanksBRD(){
-  int index = 0;
+
+  // Index variable
+  int index = 0; 
+  
+  // File and rank variables  
   int file = FILE_A;
   int rank = RANK_1;
+  
+  // Square index variable
   int sq = A1;
+  
+  // 64-bit square index variable  
   int sq64 = 0;
 
+  // Loop through all board squares
   for(index = 0; index < BRD_SQ_NUM; ++index){
+    
+    // Set offboard value
     FilesBRD[index] = OFFBOARD;
     RanksBRD[index] = OFFBOARD;
   }
 
+  // Loop through ranks
   for(rank = RANK_1; rank <= RANK_8; ++rank){
+
+    // Loop through files
     for(file = FILE_A; file <= FILE_H; ++file){
+    
+      // Get square index
       sq = FR2SQ(file, rank);
-      FilesBRD[sq] = file;
+      
+      // Set file and rank for this square
+      FilesBRD[sq] = file; 
       RanksBRD[sq] = rank;
     }
   }
