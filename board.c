@@ -1,6 +1,133 @@
 #include "stdio.h"
 #include "defs.h"
 
+int CheckBoard(const S_BOARD *pos) {
+
+	int t_pceNum[13] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	int t_bigPce[2] = { 0, 0};
+	int t_mjrPce[2] = { 0, 0};
+	int t_minPce[2] = { 0, 0};
+	int t_material[2] = { 0, 0};
+
+	int sq64,t_piece,t_pce_num,sq120,colour,pcount;
+
+	U64 t_pawns[3] = {0ULL, 0ULL, 0ULL};
+
+	t_pawns[WHITE] = pos->pawns[WHITE];
+	t_pawns[BLACK] = pos->pawns[BLACK];
+	t_pawns[BOTH] = pos->pawns[BOTH];
+
+	// check piece lists
+	for(t_piece = wP; t_piece <= bK; ++t_piece) {
+		for(t_pce_num = 0; t_pce_num < pos->pceNum[t_piece]; ++t_pce_num) {
+			sq120 = pos->pList[t_piece][t_pce_num];
+			ASSERT(pos->pieces[sq120]==t_piece);
+		}
+	}
+
+	// check piece count and other counters
+	for(sq64 = 0; sq64 < 64; ++sq64) {
+		sq120 = SQ120(sq64);
+		t_piece = pos->pieces[sq120];
+		t_pceNum[t_piece]++;
+		colour = PieceCol[t_piece];
+		if( PieceBig[t_piece] == TRUE) t_bigPce[colour]++;
+		if( PieceMin[t_piece] == TRUE) t_minPce[colour]++;
+		if( PieceMjr[t_piece] == TRUE) t_mjrPce[colour]++;
+
+		t_material[colour] += PieceVal[t_piece];
+	}
+
+	for(t_piece = wP; t_piece <= bK; ++t_piece) {
+		ASSERT(t_pceNum[t_piece]==pos->pceNum[t_piece]);
+	}
+
+	// check bitboards count
+	pcount = CNT(t_pawns[WHITE]);
+	ASSERT(pcount == pos->pceNum[wP]);
+	pcount = CNT(t_pawns[BLACK]);
+	ASSERT(pcount == pos->pceNum[bP]);
+	pcount = CNT(t_pawns[BOTH]);
+	ASSERT(pcount == (pos->pceNum[bP] + pos->pceNum[wP]));
+
+	// check bitboards squares
+	while(t_pawns[WHITE]) {
+		sq64 = POP(&t_pawns[WHITE]);
+		ASSERT(pos->pieces[SQ120(sq64)] == wP);
+	}
+
+	while(t_pawns[BLACK]) {
+		sq64 = POP(&t_pawns[BLACK]);
+		ASSERT(pos->pieces[SQ120(sq64)] == bP);
+	}
+
+	while(t_pawns[BOTH]) {
+		sq64 = POP(&t_pawns[BOTH]);
+		ASSERT( (pos->pieces[SQ120(sq64)] == bP) || (pos->pieces[SQ120(sq64)] == wP) );
+	}
+
+	ASSERT(t_material[WHITE]==pos->material[WHITE] && t_material[BLACK]==pos->material[BLACK]);
+	ASSERT(t_minPce[WHITE]==pos->minPce[WHITE] && t_minPce[BLACK]==pos->minPce[BLACK]);
+	ASSERT(t_mjrPce[WHITE]==pos->mjrPce[WHITE] && t_mjrPce[BLACK]==pos->mjrPce[BLACK]);
+	ASSERT(t_bigPce[WHITE]==pos->bigPce[WHITE] && t_bigPce[BLACK]==pos->bigPce[BLACK]);
+
+	ASSERT(pos->side==WHITE || pos->side==BLACK);
+	ASSERT(GeneratePosKey(pos)==pos->posKey);
+
+	ASSERT(pos->enPas==NO_SQ || (RanksBRD[pos->enPas] == RANK_6 && pos->side == WHITE) || (RanksBRD[pos->enPas] == RANK_3 && pos->side == BLACK));
+		 
+
+	ASSERT(pos->pieces[pos->KingSq[WHITE]] == wK);
+	ASSERT(pos->pieces[pos->KingSq[BLACK]] == bK);
+
+	ASSERT(pos->castlePerm >= 0 && pos->castlePerm <= 15);
+
+
+	return TRUE;
+}
+
+// Update material count and piece lists for position
+void UpdateListMaterial(S_BOARD *pos){
+    int piece, sq, index, color;
+
+    // Loop through all squares on board
+    for(index = 0; index < BRD_SQ_NUM; ++index){
+        
+        sq = index; // Current square
+        
+        piece = pos->pieces[index]; // Get piece on current square
+        
+        if(piece != OFFBOARD && piece != EMPTY){
+            
+            // Get color of piece
+            color = PieceCol[piece]; 
+            
+            // Update material counts
+            if(PieceBig[piece] == TRUE) pos->bigPce[color]++; 
+            if(PieceMin[piece] == TRUE) pos->minPce[color]++;
+            if(PieceMjr[piece] == TRUE) pos->mjrPce[color]++;
+    
+            pos->material[color] += PieceVal[piece];
+            
+            // Update piece lists
+            pos->pList[piece][pos->pceNum[piece]] = sq; 
+            pos->pceNum[piece]++;
+ 
+            // Update king square 
+            if(piece == wK) pos->KingSq[WHITE] = sq;
+            if(piece == bK) pos->KingSq[BLACK] = sq;
+
+            if(piece==wP) {
+				      SETBIT(pos->pawns[WHITE],SQ64(sq));
+				      SETBIT(pos->pawns[BOTH],SQ64(sq));
+			      } else if(piece==bP) {
+				      SETBIT(pos->pawns[BLACK],SQ64(sq));
+				      SETBIT(pos->pawns[BOTH],SQ64(sq));
+			      }
+        }
+    }
+}
+
 // Parse FEN string into position structure
 int ParseFen(char *fen, S_BOARD *pos) {
 
