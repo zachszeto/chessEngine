@@ -89,26 +89,39 @@ typedef struct
 #define CNT(b) CountBits(b)
 #define CLRBIT(bb, sq) ((bb) &= ClearMask[(sq)])
 #define SETBIT(bb,sq) ((bb) |= SetMask[(sq)])
+#define IsBQ(p) (PieceBishopQueen[(p)]);
+#define IsRQ(p) (PieceRookQueen[(p)]);
+#define IsKn(p) (PieceKnight[(p)]);
+#define IsKi(p) (PieceKing[(p)]);
 
 /* GLOBALS */
 extern int Sq120ToSq64[BRD_SQ_NUM]; //Used to get 64 square array index from 120 
 extern int Sq64ToSq120[64];         //Used to get 120 square array index from 64 
+
 extern U64 SetMask[64];             //Sets Bit Mask
 extern U64 ClearMask[64];           //Clears Bit Mask
 extern U64 PieceKeys[13][120];      //Pieces HashKey
 extern U64 SideKey;                 //Side Hashkey
 extern U64 CastleKeys[16];          //Castle Hashkey
+
 extern char PceChar[];              
 extern char SideChar[];
 extern char RankChar[];
 extern char FileChar[];
+
 extern int PieceBig[13];
 extern int PieceMjr[13];
 extern int PieceMin[13];
 extern int PieceVal[13];
 extern int PieceCol[13];
+
 extern int FilesBRD[BRD_SQ_NUM];
 extern int RanksBRD[BRD_SQ_NUM];
+
+extern int PieceKnight[13];
+extern int PieceKing[13];
+extern int PieceRookQueen[13];
+extern int PieceBishopQueen[13];
 
 /* FUNCTIONS */
     //inti.c
