@@ -8,17 +8,43 @@
 */
 
 #define FEN4 "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"
+#define FEN1 "8/3q4/8/8/4Q3/8/8/8 w - - 0 2 "
+
+void ShowSqAtBySide(const int side, const S_BOARD *pos){
+    int rank = 0;
+    int file = 0;
+    int sq = 0;
+
+    printf("\n\nSquare attacked by:%c\n", SideChar[side]);
+    for(rank = RANK_8; rank >= RANK_1; --rank) {
+        for(file = FILE_A; file <= FILE_H; ++file) {
+            sq = FR2SQ(file, rank);
+            if(SqAttacked(sq, side, pos) == TRUE){
+                printf("X");
+            } else {
+                printf("-");
+            }
+	    }
+        printf("\n");
+    }
+    printf("\n");
+}
 
 int main() {
     AllInit();
 
     S_BOARD board[1];
 
-    ParseFen(FEN4, board);
+    ParseFen(FEN1, board);
     UpdateListMaterial(board);
-
     PrintBoard(board);
-    ASSERT(CheckBoard(board));
+
+    printf("\n\nWhite Attacking:\n");
+    ShowSqAtBySide(WHITE, board);
+
+    printf("\n\nBlack Attacking:\n");
+    ShowSqAtBySide(BLACK, board);
+    
     return 0;
 }
 
