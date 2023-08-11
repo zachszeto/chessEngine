@@ -47,6 +47,11 @@ enum{FALSE, TRUE};
 
 enum{WKCA = 1, WQCA = 2, BKCA = 4, BQCA = 8}; //Castling Permissions
 
+typedef struct{
+    int move;
+    int score;
+} S_MOVE;
+
 //Move Struct
 typedef struct 
 {
@@ -80,6 +85,8 @@ typedef struct
     int pList[13][10];              //Piece List
 
 } S_BOARD;
+
+/*GAME MOVE*/
 
 /* MACROS */
 #define FR2SQ(f,r) ((21+(f)) + ((r) * 10))  //For given file and rank returns 120 array based index for square
